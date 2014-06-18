@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+            
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <CheckBox
+        android:id="@+id/isAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Add" />
+    <EditText
+        android:id="@+id/limitAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/limitAdd"
+        android:inputType="number" >
+    </EditText>
+
+    <!--  -->
+
+    <CheckBox
+        android:id="@+id/isSub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Sub" />
+
+    <EditText
+        android:id="@+id/limitSub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/limitSub"
+        android:inputType="number" >
+    </EditText>
+    
+    <!--  -->
+
+
+    <CheckBox
+        android:id="@+id/isMult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:text="@string/Mult" />
+    <EditText
+        android:id="@+id/limitMult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/limitMult"
+        android:inputType="number" >
+    </EditText>
+
+    <!--  -->
+
+    <CheckBox
+        android:id="@+id/isDiv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:text="@string/Div" />
+    <EditText
+        android:id="@+id/limitDiv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/limitDiv"
+        android:inputType="number" >
+    </EditText>
+    
+    <!--  -->
+
+        <RadioGroup
+            android:id="@+id/showStrategy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <RadioButton
+                android:id="@+id/doSpeak"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/RadioBt_1" />
+
+            <RadioButton
+                android:id="@+id/doShow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/RadioBt_2" />
+
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+            
+        <Button
+            android:id="@+id/btSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/SaveButton" />        
+        </LinearLayout>
+
+
+
+ 
+
+</LinearLayout>

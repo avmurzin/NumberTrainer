@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">NumberTrainer</string>
+    <string name="action_settings">Настройки заданий</string>
+    <string name="action_exit">Выйти</string>
+    <string name="score_clear">Очистить счет</string>
+    <string name="limitAdd">Максимальная величина операндов</string>
+    <string name="limitSub">Максимальная величина операндов</string>
+    <string name="limitMult">Максимальная величина операндов</string>
+    <string name="limitDiv">Максимальная величина операндов</string>
+    <string name="Add">Сложение</string>
+    <string name="Sub">Вычитание</string>
+    <string name="Mult">Умножение</string>
+    <string name="Div">Деление</string>
+    <string name="RadioBt_1">Проговаривать</string>
+    <string name="RadioBt_2">Показывать</string>
+    <string name="SaveButton">Сохранить</string>
+    <string name="repeat">Повторить</string>
+
+</resources>
