@@ -80,11 +80,11 @@ public class MainActivity extends Activity implements OnClickListener, SettingsD
 		//...
 		//do new Task
 		if (currentTask.getTaskContent().getAnswer() == Long.parseLong((String)text_answer.getText())) {
-			Toast toast = Toast.makeText(getApplicationContext(), "Good!", Toast.LENGTH_SHORT);
+			Toast toast = Toast.makeText(getApplicationContext(), "Отлично!", Toast.LENGTH_SHORT);
 			toast.show();
 			scoreStrategy.updateScore(true);
 		} else {
-			Toast toast = Toast.makeText(getApplicationContext(), "Bad!", Toast.LENGTH_SHORT);
+			Toast toast = Toast.makeText(getApplicationContext(), "Ошибка!", Toast.LENGTH_SHORT);
 			toast.show();
 			scoreStrategy.updateScore(false);
 		}
@@ -152,19 +152,21 @@ public class MainActivity extends Activity implements OnClickListener, SettingsD
 		
 		switch (settings.getInt("showStrategy", R.id.doSpeak)) {
 		case R.id.doSpeak:
-			showStrategy = null;
-			showStrategy = new SpeakStrategy(getApplicationContext());
-			break;
-		case R.id.doShow:
-			
-			break;
-
-		default:
 			if (showStrategy != null) {
 				showStrategy.release();
 			}
 			showStrategy = null;
 			showStrategy = new SpeakStrategy(getApplicationContext());
+			break;
+		case R.id.doShow:
+			if (showStrategy != null) {
+				showStrategy.release();
+			}
+			showStrategy = null;
+			showStrategy = new ViewStrategy(getApplicationContext());
+			break;
+
+		default:
 			break;
 		}
 		
@@ -187,6 +189,9 @@ public class MainActivity extends Activity implements OnClickListener, SettingsD
 		}
 		if (isMult) {
 			taskList.add(new TaskMult(limitMult));
+		}
+		if (isDiv) {
+			taskList.add(new TaskDiv(limitDiv));
 		}
 		
 		if (taskList.size() == 0) {
@@ -261,4 +266,10 @@ public class MainActivity extends Activity implements OnClickListener, SettingsD
 	       }
 		   
 		   }
+	   
+//	   @Override
+//	protected void onResume() {
+//		restoreSettings();
+//		super.onResume();
+//	}
 }

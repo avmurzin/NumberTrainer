@@ -2,10 +2,17 @@ package com.murzin.numbertrainer;
 
 public class TaskContent {
     public static enum Operation {
-    	Add,
-    	Sub,
-    	Mult,
-    	Div
+    	Add("+"),
+    	Sub("-"),
+    	Mult("*"),
+    	Div("/");
+    	private String mark;
+    	Operation(String m) {
+    		mark = m;
+    	}
+    	String getString() {
+    		return mark;
+    	}
     }
     private Operation op;
     private long operands[];
