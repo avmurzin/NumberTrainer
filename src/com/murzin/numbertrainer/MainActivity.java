@@ -35,6 +35,8 @@ public class MainActivity extends Activity implements OnClickListener, SettingsD
 	private long limitAdd, limitSub, limitMult, limitDiv;
 	
 	LinkedList<Task> taskList = new LinkedList<Task>();
+	
+	SaveToDB saveToDB;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,17 +78,17 @@ public class MainActivity extends Activity implements OnClickListener, SettingsD
 	}
 	
 	private void checkAnswer(){
-		//check
-		//...
-		//do new Task
+
 		if (currentTask.getTaskContent().getAnswer() == Long.parseLong((String)text_answer.getText())) {
 			Toast toast = Toast.makeText(getApplicationContext(), "Отлично!", Toast.LENGTH_SHORT);
 			toast.show();
 			scoreStrategy.updateScore(true);
+			saveToDB.store(currentTask, true);
 		} else {
 			Toast toast = Toast.makeText(getApplicationContext(), "Ошибка!", Toast.LENGTH_SHORT);
 			toast.show();
 			scoreStrategy.updateScore(false);
+			saveToDB.store(currentTask, false);
 		}
 		doTask();
 	}
@@ -267,9 +269,20 @@ public class MainActivity extends Activity implements OnClickListener, SettingsD
 		   
 		   }
 	   
-//	   @Override
-//	protected void onResume() {
-//		restoreSettings();
-//		super.onResume();
-//	}
+	   @Override
+	protected void onResume() {
+		   super.onResume();
+		   if (saveToDB != null) {
+			   saveToDB = null;
+		   }
+		   saveToDB = new SaveToDB(getApplicationContext());
+	}
+	   
+	   @Override
+	protected void onPause() {
+		   super.onPause();
+		   if (saveToDB != null) {
+			   saveToDB = null;
+		   }
+	}
 }
