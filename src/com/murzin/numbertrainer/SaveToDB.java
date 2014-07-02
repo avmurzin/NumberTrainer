@@ -1,9 +1,15 @@
 package com.murzin.numbertrainer;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Environment;
 
 public class SaveToDB {
 	private final static int VERSION = 1;
@@ -44,6 +50,43 @@ public class SaveToDB {
 		dbHelper.close();
 	}
 	
+	public void export() {
+		if(!isExternalStorageWritable()) {
+			// TODO: alert for no external storage
+			return;
+		}
+	    File path = Environment.getExternalStoragePublicDirectory(
+	            Environment.DIRECTORY_DOWNLOADS);
+	    File file = new File(path, Long.toString(System.currentTimeMillis() / 1000) + ".txt");
+	    FileOutputStream outputStream;
+	    String outString;
+		
+		SQLiteDatabase db = dbHelper.getReadableDatabase();
+		String[] columns = {"id", "operand_1", "operand_2", "operation", "answer", "time"};
+		Cursor cursor = db.query(false, TABLE_NAME, columns, null, null, null, null, "id", null);
+		cursor.moveToFirst();
+		
+		try {
+			path.mkdirs();
+			outputStream = new FileOutputStream(file);
+			while (!cursor.isAfterLast()) {
+				outString = cursor.getInt(0) + "," 
+						+ cursor.getInt(1) + "," 
+						+ cursor.getInt(2) + "," 
+						+ cursor.getString(3) + ","
+						+ cursor.getInt(4) + ","
+						+ cursor.getInt(5)
+						+ System.getProperty("line.separator");
+				outputStream.write(outString.getBytes());
+				cursor.moveToNext();
+			}
+			outputStream.close();
+		} catch (IOException e) {
+			// TODO: handle exception
+		}
+		dbHelper.close();
+	}
+	
 	class DBHelper extends SQLiteOpenHelper {
 
 		public DBHelper(Context context) {
@@ -59,5 +102,14 @@ public class SaveToDB {
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
 		}
+	}
+	
+	/* Checks if external storage is available for read and write */
+	public boolean isExternalStorageWritable() {
+	    String state = Environment.getExternalStorageState();
+	    if (Environment.MEDIA_MOUNTED.equals(state)) {
+	        return true;
+	    }
+	    return false;
 	}
 }

@@ -8,12 +8,16 @@ import android.app.DialogFragment;
 //import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -78,14 +82,36 @@ public class MainActivity extends Activity implements OnClickListener, SettingsD
 	}
 	
 	private void checkAnswer(){
-
+		LayoutInflater inflater = getLayoutInflater();
+		View layout = inflater.inflate(R.layout.toast_layout, 
+				(ViewGroup) findViewById(R.id.toast_layout_root));
+		TextView text = (TextView) layout.findViewById(R.id.toast_text);
+		ImageView image = (ImageView) layout.findViewById(R.id.toast_image);
+		
+		Toast toast = new Toast(getApplicationContext());
+		//toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+		toast.setDuration(Toast.LENGTH_LONG);
+		//
+		String badId = "b_" + Long.toString(Math.round(Math.random() * 27));
+		int id_bad = getApplicationContext().getResources().getIdentifier(badId, "raw", getApplicationContext().getPackageName());
+		//
+		String goodId = "g_" + Long.toString(Math.round(Math.random() * 20));
+		int id_good = getApplicationContext().getResources().getIdentifier(goodId, "raw", getApplicationContext().getPackageName());
+		
+	
 		if (currentTask.getTaskContent().getAnswer() == Long.parseLong((String)text_answer.getText())) {
-			Toast toast = Toast.makeText(getApplicationContext(), "Отлично!", Toast.LENGTH_SHORT);
+			text.setText("Отлично!");
+			image.setImageResource(id_good);
+//			Toast toast = Toast.makeText(getApplicationContext(), "Отлично!", Toast.LENGTH_SHORT);
+			toast.setView(layout);
 			toast.show();
 			scoreStrategy.updateScore(true);
 			saveToDB.store(currentTask, true);
 		} else {
-			Toast toast = Toast.makeText(getApplicationContext(), "Ошибка!", Toast.LENGTH_SHORT);
+			text.setText("Ошибка!");
+			image.setImageResource(id_bad);
+//			Toast toast = Toast.makeText(getApplicationContext(), "Ошибка!", Toast.LENGTH_SHORT);
+			toast.setView(layout);
 			toast.show();
 			scoreStrategy.updateScore(false);
 			saveToDB.store(currentTask, false);
@@ -124,6 +150,10 @@ public class MainActivity extends Activity implements OnClickListener, SettingsD
 		}
 		if (id == R.id.score_clear) {
 			scoreStrategy.clear();
+			return true;
+		}
+		if (id == R.id.score_export) {
+			saveToDB.export();
 			return true;
 		}
 		

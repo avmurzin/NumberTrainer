@@ -5,6 +5,7 @@
     <string name="action_settings">Настройки заданий</string>
     <string name="action_exit">Выйти</string>
     <string name="score_clear">Очистить счет</string>
+    <string name="score_export">Экспортировать счет в файл</string>
     <string name="limitAdd">Максимальная величина операндов</string>
     <string name="limitSub">Максимальная величина операндов</string>
     <string name="limitMult">Максимальная величина операндов</string>
