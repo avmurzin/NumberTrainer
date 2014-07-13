@@ -18,7 +18,7 @@ public class SpeakStrategy implements Strategy {
 
 	/**
 	 * Thread for task operands and operation voices playing.
-	 * @author murzin
+	 * @author Andrei V. Murzin
 	 *
 	 */
 	private class playTask extends AsyncTask<LinkedList<MediaPlayer>, Void, Integer> {

@@ -3,15 +3,46 @@ package com.murzin.numbertrainer;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Bundle;
 import android.os.Environment;
 
 public class SaveToDB {
+	
+	public class ExportDialog extends DialogFragment {
+		private String message;
+		public ExportDialog(String message) {
+			this.message = message;
+		}
+	    @Override
+	    public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+	        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+	        builder.setMessage(getString(R.string.export_dialog) + System.getProperty("line.separator") + message)
+	               .setPositiveButton(R.string.export_dialog_ok, new DialogInterface.OnClickListener() {
+	                   public void onClick(DialogInterface dialog, int id) {
+
+	                   }
+	               });
+
+	        return builder.create();
+	    }
+	}
+	
+	
 	private final static int VERSION = 1;
 	private final static String DB_NAME = "scoreDB";
 	private final static String TABLE_NAME = "score";
@@ -27,9 +58,11 @@ public class SaveToDB {
 			");";
 	 private DBHelper dbHelper;
 	 private Context context;
+	 private Activity activity;
 
-	public SaveToDB(Context context) {
+	public SaveToDB(Context context, Activity activity) {
 		this.context = context;
+		this.activity = activity;
 		dbHelper = new DBHelper(context);
 	}
 	
@@ -66,6 +99,8 @@ public class SaveToDB {
 		Cursor cursor = db.query(false, TABLE_NAME, columns, null, null, null, null, "id", null);
 		cursor.moveToFirst();
 		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z", Locale.getDefault());
+		
 		try {
 			path.mkdirs();
 			outputStream = new FileOutputStream(file);
@@ -75,7 +110,8 @@ public class SaveToDB {
 						+ cursor.getInt(2) + "," 
 						+ cursor.getString(3) + ","
 						+ cursor.getInt(4) + ","
-						+ cursor.getInt(5)
+						+ cursor.getInt(5) + ","
+						+ sdf.format(new Date(cursor.getInt(5)*1000L))
 						+ System.getProperty("line.separator");
 				outputStream.write(outString.getBytes());
 				cursor.moveToNext();
@@ -85,6 +121,8 @@ public class SaveToDB {
 			// TODO: handle exception
 		}
 		dbHelper.close();
+		DialogFragment dialog = new ExportDialog(file.getPath());
+		dialog.show(activity.getFragmentManager(), "export_dialog");
 	}
 	
 	class DBHelper extends SQLiteOpenHelper {

@@ -25,6 +25,10 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnClickListener, SettingsDialogListener {
 	public static final String SETTINGS_NAME = "Settings";
+	public static final long MAX_ADD = 199;
+	public static final long MAX_SUB = 199;
+	public static final long MAX_MUL = 14;
+	public static final long MAX_DIV = 14;
 	private boolean isAdd = false;
 	private boolean isSub = false;
 	private boolean isMult = false;
@@ -89,7 +93,7 @@ public class MainActivity extends Activity implements OnClickListener, SettingsD
 		ImageView image = (ImageView) layout.findViewById(R.id.toast_image);
 		
 		Toast toast = new Toast(getApplicationContext());
-		//toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+		
 		toast.setDuration(Toast.LENGTH_LONG);
 		//
 		String badId = "b_" + Long.toString(Math.round(Math.random() * 27));
@@ -102,7 +106,7 @@ public class MainActivity extends Activity implements OnClickListener, SettingsD
 		if (currentTask.getTaskContent().getAnswer() == Long.parseLong((String)text_answer.getText())) {
 			text.setText("Отлично!");
 			image.setImageResource(id_good);
-//			Toast toast = Toast.makeText(getApplicationContext(), "Отлично!", Toast.LENGTH_SHORT);
+
 			toast.setView(layout);
 			toast.show();
 			scoreStrategy.updateScore(true);
@@ -173,15 +177,47 @@ public class MainActivity extends Activity implements OnClickListener, SettingsD
 	public void onDialogClick(String pref_name) {
 		SharedPreferences settings = getSharedPreferences(pref_name, 0);
 		isAdd = settings.getBoolean("isAdd", true);
-		isSub = settings.getBoolean("isSub", false);
-		isMult = settings.getBoolean("isMult", false);
-		isDiv = settings.getBoolean("isDiv", false);
+		isSub = settings.getBoolean("isSub", true);
+		isMult = settings.getBoolean("isMult", true);
+		isDiv = settings.getBoolean("isDiv", true);
 		
-		limitAdd = Long.parseLong(settings.getString("limitAdd", "100"));
-		limitSub = Long.parseLong(settings.getString("limitSub", "100"));
-		limitMult = Long.parseLong(settings.getString("limitMult", "100"));
-		limitDiv = Long.parseLong(settings.getString("limitDiv", "100"));
+		try {
+			limitAdd = Long.parseLong(settings.getString("limitAdd", "100"));
+			if (limitAdd > MAX_ADD) {
+				limitAdd = MAX_ADD;
+			}
+		} catch (NumberFormatException e) {
+			limitAdd = 100;
+		}
 		
+		try {
+			limitSub = Long.parseLong(settings.getString("limitSub", "100"));
+			if (limitSub > MAX_SUB) {
+				limitSub = MAX_SUB;
+			}
+		} catch (NumberFormatException e) {
+			limitSub = 100;
+		}
+		
+		try {
+			limitMult = Long.parseLong(settings.getString("limitMult", "10"));
+			if (limitMult > MAX_MUL) {
+				limitMult = MAX_MUL;
+			}
+		} catch (NumberFormatException e) {
+			limitMult = 10;
+		}
+		
+		try {
+			limitDiv = Long.parseLong(settings.getString("limitDiv", "10"));
+			if (limitDiv > MAX_DIV) {
+				limitDiv = MAX_DIV;
+			}
+		} catch (NumberFormatException e) {
+			limitDiv = 10;
+		}
+		
+	
 		switch (settings.getInt("showStrategy", R.id.doSpeak)) {
 		case R.id.doSpeak:
 			if (showStrategy != null) {
@@ -305,7 +341,7 @@ public class MainActivity extends Activity implements OnClickListener, SettingsD
 		   if (saveToDB != null) {
 			   saveToDB = null;
 		   }
-		   saveToDB = new SaveToDB(getApplicationContext());
+		   saveToDB = new SaveToDB(getApplicationContext(), this);
 	}
 	   
 	   @Override

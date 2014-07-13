@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources> 
     
-    <color name="bt_text">#ffffff</color> 
+    <color name="bt_text">#000000</color> 
     <color name="bt_bg">#000000</color> 
         <color name="bs_text">#ff0000</color> 
     <color name="bs_bg">#000000</color> 

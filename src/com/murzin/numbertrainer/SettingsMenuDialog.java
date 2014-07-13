@@ -78,13 +78,13 @@ public class SettingsMenuDialog extends DialogFragment implements OnClickListene
 		SharedPreferences settings = getActivity().getSharedPreferences(MainActivity.SETTINGS_NAME, 0);
 		limitAdd.setText(settings.getString("limitAdd", "100"));
 		limitSub.setText(settings.getString("limitSub", "100"));
-		limitMult.setText(settings.getString("limitMult", "100"));
-		limitDiv.setText(settings.getString("limitDiv", "100"));
+		limitMult.setText(settings.getString("limitMult", "10"));
+		limitDiv.setText(settings.getString("limitDiv", "10"));
 		
 		isAdd.setChecked(settings.getBoolean("isAdd", true));
-		isSub.setChecked(settings.getBoolean("isSub", false));
-		isMult.setChecked(settings.getBoolean("isMult", false));
-		isDiv.setChecked(settings.getBoolean("isDiv", false));
+		isSub.setChecked(settings.getBoolean("isSub", true));
+		isMult.setChecked(settings.getBoolean("isMult", true));
+		isDiv.setChecked(settings.getBoolean("isDiv", true));
 		showStrategy.check(settings.getInt("showStrategy", R.id.doSpeak));
 		
 		v.findViewById(R.id.btSave).setOnClickListener(this);

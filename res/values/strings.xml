@@ -18,5 +18,7 @@
     <string name="RadioBt_2">Показывать</string>
     <string name="SaveButton">Сохранить</string>
     <string name="repeat">Повторить</string>
+    <string name="export_dialog">Результаты сохранены в файл:</string>
+    <string name="export_dialog_ok">Закрыть</string>
 
 </resources>
